@@ -1,10 +1,10 @@
 require "graphql/analyzer/version"
 require "graphql/analyzer/instrumentation"
-require "graphql/analyzer/explainer/parser"
-require "graphql/analyzer/explainer/result"
-require "graphql/analyzer/explainer/explained_query"
+require "graphql/analyzer/parser"
+require "graphql/analyzer/result"
+require "graphql/analyzer/explained_query"
 
-module Graphql
+module GraphQL
   class Analyzer
     def initialize(graphql_schema)
       @graphql_schema = graphql_schema
@@ -14,7 +14,7 @@ module Graphql
       instrumenter = Instrumentation.new
       result = schema(instrumenter).execute(*args)
       result['extensions'] ||= {}
-      result['extensions']['analyzer'] = instrumenter
+      result['extensions']['graphql-analyzer'] = instrumenter
       result
     end
 

@@ -1,7 +1,11 @@
 require "bundler/setup"
-require "graphql/analyzer"
-require 'support/factory_bot'
 require 'pry-byebug'
+require "graphql"
+require 'globalid'
+require 'graphql/analyzer'
+require 'support/factory_bot'
+require 'support/active_record'
+require 'support/graphql'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

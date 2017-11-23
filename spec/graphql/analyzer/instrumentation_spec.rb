@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Graphql::Analyzer::Instrumentation do
+describe GraphQL::Analyzer::Instrumentation do
   let(:field) do
     field = GraphQL::Field.new
     field.resolve = ->(obj, args, ctx) { User.first }
     field
   end
-  let(:instrumenter) { Graphql::Analyzer::Instrumentation.new }
+  let(:instrumenter) { GraphQL::Analyzer::Instrumentation.new }
   let(:instrumented_field) { instrumenter.instrument(nil, field) }
   let(:mock_ctx) { OpenStruct.new(path: ['user']) }
 

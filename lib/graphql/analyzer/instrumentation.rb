@@ -1,4 +1,4 @@
-module Graphql
+module GraphQL
   class Analyzer
     class Instrumentation
       attr_reader :results
@@ -38,7 +38,7 @@ module Graphql
 
           if queries.any?
             explain_output = ActiveRecord::Base.exec_explain(queries)
-            result = Explainer::Parser.parse(explain_output)
+            result = Parser.parse(explain_output)
             result.path = ctx.path
             results << result
           end
