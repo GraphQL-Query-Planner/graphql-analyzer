@@ -1,4 +1,5 @@
 require 'active_record'
+require 'support/active_record/models/application_record.rb'
 
 GlobalID.app = 'GraphQL-Analyzer'
 
