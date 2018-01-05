@@ -1,29 +1,46 @@
+require "graphql"
 require "graphql/analyzer/version"
-require "graphql/analyzer/instrumentation"
+require "graphql/analyzer/active_record_instrumentation"
 require "graphql/analyzer/parser"
 require "graphql/analyzer/result"
 require "graphql/analyzer/explained_query"
 
 module GraphQL
   class Analyzer
-    def initialize(graphql_schema)
-      @graphql_schema = graphql_schema
+    attr_reader :instruments
+    private :instruments
+
+    def initialize(instruments)
+      @instruments = instruments
     end
 
-    def execute(*args)
-      instrumenter = Instrumentation.new
-      result = schema(instrumenter).execute(*args)
-      result['extensions'] ||= {}
-      result['extensions']['graphql-analyzer'] = instrumenter
-      result
+    def use(schema_definition)
+      schema_definition.instrument(:query, self)
+      schema_definition.instrument(:field, self)
     end
 
-    private
+    def before_query(query)
+      query.context['graphql-analyzer'] = { 'resolvers' => [] }
+    end
 
-    attr_reader :graphql_schema
+    def after_query(query)
+      result = query.result
 
-    def schema(instrumenter)
-      graphql_schema.redefine { instrument(:field, instrumenter) }
+      result["extensions"] ||= {}
+      result["extensions"]["analyzer"] = {
+        "version" => 1,
+        "execution" => {
+          "resolvers" => query.context['graphql-analyzer']['resolvers']
+        }
+      }
+    end
+
+    def instrument(type, field)
+      instruments.reduce(field) do |field, instrumentation|
+        field.redefine { resolve(instrumentation.instrument(type, field)) }
+      end
     end
   end
 end
+
+
