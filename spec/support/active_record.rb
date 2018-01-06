@@ -13,4 +13,11 @@ Dir.glob(File.join('spec', 'support', 'active_record', 'config', '*.yml')).each 
   DB_CONFIGS[File.basename(filename, '.yml')] = YAML.load(File.read(filename))
 end
 
+ActiveRecord::Migration.verbose = false
+
+DB_CONFIGS.each do |adapter, config|
+  ActiveRecord::Base.establish_connection(config[RAILS_ENV])
+  ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+end
+
 ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])

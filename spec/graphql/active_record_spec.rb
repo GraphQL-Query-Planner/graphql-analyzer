@@ -12,15 +12,21 @@ shared_examples 'an instrumented field' do
 
   it 'captures db queries' do
     expected = result['extensions']['analyzer']['execution']['resolvers']
-    binding.pry
     expect(expected).not_to be_empty
   end
 end
 
 DB_CONFIGS.each do |adapter, config|
   describe "graphql fields backed by #{adapter}" do
-    ActiveRecord::Base.establish_connection(DB_CONFIGS[adapter][RAILS_ENV])
+    before :all do
+      ActiveRecord::Base.establish_connection(config[RAILS_ENV])
+      ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+    end
+
+    after :all do
+      ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])
+    end
+
     it_behaves_like 'an instrumented field'
-    ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])
   end
 end
