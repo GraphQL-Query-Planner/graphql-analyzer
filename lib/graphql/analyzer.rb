@@ -7,7 +7,6 @@ require "graphql/analyzer/parser/base"
 require "graphql/analyzer/parser/mysql"
 require "graphql/analyzer/parser/sqlite3"
 require "graphql/analyzer/result"
-require "graphql/analyzer/explained_query"
 
 module GraphQL
   class Analyzer
