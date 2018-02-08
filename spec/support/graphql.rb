@@ -15,5 +15,5 @@ class MockContext
     }
   end
 
-  delegate :[], :[]=, to: :context
+  delegate :[], :[]=, :dig, to: :context
 end

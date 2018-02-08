@@ -21,12 +21,11 @@ module GraphQL
 
       def parse
         root, keys, *values, benchmark = stripped_output
-        fields = keys[1..-1].split('|').map(&:strip).map(&:downcase).map(&:to_sym)
+        fields = keys[1..-1].split('|').map(&:strip).map(&:downcase)
 
         explained_queries = values.map do |value|
           parsed_value = value[1..-1].split("|").map(&:strip)
-          transformed_values = fields.zip(parsed_value).to_h
-          ExplainedQuery.new(transformed_values)
+          fields.zip(parsed_value).to_h
         end
 
         Result.new(root, explained_queries, benchmark)

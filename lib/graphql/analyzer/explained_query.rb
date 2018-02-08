@@ -15,10 +15,6 @@ module GraphQL
         @explained_query = explained_query
       end
 
-      def indexed?
-        type == 'ref' && key != NULL
-      end
-
       def to_s
         "#<#{self.class.name}\n" +
         explained_query.map do |field, result|

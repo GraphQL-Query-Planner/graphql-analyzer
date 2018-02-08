@@ -21,7 +21,7 @@ module GraphQL
             'parentType' => type.name,
             'fieldName' => field.name,
             'returnType' => field.type.to_s,
-            'queries' => parsed_output
+            'details' => parsed_output
           }
 
           result
