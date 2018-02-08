@@ -1,7 +1,7 @@
 require "graphql"
 require "graphql/analyzer/version"
-require "graphql/analyzer/active_record_instrumentation"
-require "graphql/analyzer/parser"
+require "graphql/analyzer/instrumentation/mysql"
+require "graphql/analyzer/parser/mysql"
 require "graphql/analyzer/result"
 require "graphql/analyzer/explained_query"
 

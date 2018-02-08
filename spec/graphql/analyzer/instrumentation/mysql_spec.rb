@@ -6,7 +6,7 @@ shared_examples 'an instrumented activerecord field' do
     field.resolve = ->(obj, args, ctx) { User.first }
     field
   end
-  let(:instrumentation) { GraphQL::Analyzer::ActiveRecordInstrumentation.new }
+  let(:instrumentation) { GraphQL::Analyzer::Instrumentation::MySQL.new }
   let(:instrumented_proc) { instrumentation.instrument(OpenStruct.new(name: 'TypeName'), field) }
   let(:mock_ctx) { MockContext.new(path: ['user']) }
 
@@ -45,7 +45,7 @@ shared_examples 'an instrumented activerecord field' do
 end
 
 DB_CONFIGS.each do |adapter, config|
-  describe "a graphql field backed by #{adapter} instrumented with ActiveRecordInstrumentation" do
+  describe "a graphql field backed by #{adapter} instrumented with Instrumentation" do
     before :all do
       ActiveRecord::Base.establish_connection(config[RAILS_ENV])
       ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)

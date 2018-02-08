@@ -3,7 +3,7 @@ require 'spec_helper'
 shared_examples 'an instrumented field' do
   let(:user) { create(:user, :with_posts) }
   let(:query_string) { %|{ node(id: "#{user.to_global_id}") { id } }| }
-  let(:schema) { AppSchema.redefine { use(GraphQL::Analyzer.new([GraphQL::Analyzer::ActiveRecordInstrumentation.new])) } }
+  let(:schema) { AppSchema.redefine { use(GraphQL::Analyzer.new([GraphQL::Analyzer::Instrumentation::MySQL.new])) } }
   let(:result) do
     res = schema.execute(query_string, context: {}, variables: {})
     pp res if res.key?('errors')
