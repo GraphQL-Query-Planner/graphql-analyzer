@@ -7,6 +7,10 @@ module GraphQL
         def parser
           Parser::Mysql
         end
+
+        def adapter
+          @adapter ||= 'mysql'
+        end
       end
     end
   end

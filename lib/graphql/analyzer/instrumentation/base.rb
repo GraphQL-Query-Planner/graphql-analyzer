@@ -31,14 +31,12 @@ module GraphQL
         end
       end
 
-      private
-
       def parser
         raise NotImplementedError, "Please override in #{self.class.name}"
       end
 
       def adapter
-        @adapter ||= ActiveRecord::Base.connection.instance_values["config"][:adapter]
+        raise NotImplementedError, "Please override in #{self.class.name}"
       end
     end
   end
