@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe GraphQL::Analyzer::ActiveRecordInstrumentation do
+shared_examples 'an instrumented activerecord field' do
   let(:field) do
     field = GraphQL::Field.new
     field.resolve = ->(obj, args, ctx) { User.first }
@@ -41,5 +41,20 @@ describe GraphQL::Analyzer::ActiveRecordInstrumentation do
 
       expect(results.root).to match /SELECT.*FROM.*users/
     end
+  end
+end
+
+DB_CONFIGS.each do |adapter, config|
+  describe "a graphql field backed by #{adapter} instrumented with ActiveRecordInstrumentation" do
+    before :all do
+      ActiveRecord::Base.establish_connection(config[RAILS_ENV])
+      ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+    end
+
+    after :all do
+      ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])
+    end
+
+    it_behaves_like 'an instrumented activerecord field'
   end
 end
