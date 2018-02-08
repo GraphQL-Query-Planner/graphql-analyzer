@@ -1,11 +1,11 @@
 module GraphQL
   class Analyzer
     module Instrumentation
-      class Mysql < Base
+      class Sqlite3 < Base
         private
 
         def parser
-          Parser::Mysql
+          Parser::Sqlite3
         end
       end
     end
