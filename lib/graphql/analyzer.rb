@@ -1,9 +1,12 @@
 require "graphql"
 require "graphql/analyzer/version"
-require "graphql/analyzer/active_record_instrumentation"
-require "graphql/analyzer/parser"
+require "graphql/analyzer/instrumentation/base"
+require "graphql/analyzer/instrumentation/mysql"
+require "graphql/analyzer/instrumentation/sqlite3"
+require "graphql/analyzer/parser/base"
+require "graphql/analyzer/parser/mysql"
+require "graphql/analyzer/parser/sqlite3"
 require "graphql/analyzer/result"
-require "graphql/analyzer/explained_query"
 
 module GraphQL
   class Analyzer

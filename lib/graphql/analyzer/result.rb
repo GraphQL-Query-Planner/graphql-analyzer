@@ -1,8 +1,6 @@
 module GraphQL
   class Analyzer
     class Result
-      FIELDS = %i(id select_type table partitions type possible_keys key key_len ref rows filtered extra).freeze
-
       attr_accessor :path
       attr_reader :root, :explained_queries, :benchmark
       alias_method :queries, :explained_queries
@@ -17,7 +15,7 @@ module GraphQL
         {
           query: root,
           benchmark: benchmark,
-          explained_queries: explained_queries.map(&:to_h),
+          details: explained_queries,
           path: path
         }
       end
