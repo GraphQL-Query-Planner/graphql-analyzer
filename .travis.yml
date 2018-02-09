@@ -7,9 +7,11 @@ cache: bundler
 
 services:
   - mysql
+  - postgresql
 
 before_install:
   - mysql -e 'CREATE DATABASE graphql_analyzer_test;'
+  - psql -c 'CREATE DATABASE graphql_analyzer_test;' -U postgres
 
 notifications:
   email:
