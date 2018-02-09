@@ -1,0 +1,17 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  database: graphql_analyzer
+  pool: 5
+
+development:
+  <<: *default
+  database: graphql_analyzer_dev
+
+test:
+  <<: *default
+  database: graphql_analyzer_test
+
+production:
+  <<: *default
+  database: graphql_analyzer_prod

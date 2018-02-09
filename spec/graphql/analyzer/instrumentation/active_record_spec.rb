@@ -17,6 +17,11 @@ shared_examples 'an instrumented schema' do
     expected = result['extensions']['analyzer']['execution']['resolvers']
     expect(expected).not_to be_empty
   end
+
+  it 'provides details about the query' do
+    expected = result.dig('extensions', 'analyzer', 'execution', 'resolvers', 0, 'details')
+    expect(expected).not_to be_nil
+  end
 end
 
 shared_examples 'an instrumented field' do
