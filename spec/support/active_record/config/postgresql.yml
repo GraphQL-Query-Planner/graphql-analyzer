@@ -3,8 +3,6 @@ default: &default
   encoding: unicode
   database: graphql_analyzer
   pool: 5
-  # username: postgres
-  # password:
 
 development:
   <<: *default
