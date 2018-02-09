@@ -25,7 +25,7 @@ describe GraphQL::Analyzer::Instrumentation::Postgresql do
       results = mock_ctx.dig('graphql-analyzer', 'resolvers', 0, 'details')
       explained_query = results.explained_queries.first
 
-      fail
+      expect(explained_query).to match 'Index Scan using users_pkey on users'
     end
 
     it 'should have captured the query made' do

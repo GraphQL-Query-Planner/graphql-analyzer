@@ -5,7 +5,7 @@ module GraphQL
         private
 
         def parse
-          root, keys, *values, benchmark = explain_output.split("\n").reject { |line| line =~ /^\+.*\+$/ }
+          root, keys, *values, _ = explain_output.split("\n").reject { |line| line =~ /^\+.*\+$/ }
           fields = keys[1..-1].split('|').map(&:strip).map(&:downcase)
 
           explained_queries = values.map do |value|
@@ -13,7 +13,7 @@ module GraphQL
             fields.zip(parsed_value).to_h
           end
 
-          Result.new(root, explained_queries, benchmark)
+          Result.new(root, explained_queries)
         end
       end
     end
