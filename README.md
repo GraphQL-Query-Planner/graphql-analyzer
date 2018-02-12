@@ -1,6 +1,8 @@
 # GraphQL::Analyzer
 
 [![Build Status](https://travis-ci.org/GraphQL-Query-Planner/graphql-analyzer.svg?branch=master)](https://travis-ci.org/GraphQL-Query-Planner/graphql-analyzer)
+[![Gem Version](https://badge.fury.io/rb/graphql-analyzer.svg)](https://rubygems.org/gems/graphql-analyzer)
+
 
 GraphQL Analyzer is a [GraphQL](https://github.com/rmosolgo/graphql-ruby) extension for tracking datastore queries.
 
