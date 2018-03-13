@@ -3,7 +3,7 @@ require 'spec_helper'
 shared_examples 'a parser' do
   it 'produces an explainer result' do
     explain_output = Post.where(author_id: 1).explain
-    expect(parser.parse(explain_output)).to be_kind_of GraphQL::Analyzer::Result
+    expect(parser.parse(explain_output).first).to be_kind_of GraphQL::Analyzer::Result
   end
 end
 
