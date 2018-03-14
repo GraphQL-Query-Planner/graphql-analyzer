@@ -30,6 +30,8 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "activerecord"
   spec.add_development_dependency "activesupport"
+  spec.add_development_dependency "elasticsearch-model"
+  spec.add_development_dependency "elasticsearch-rails"
   spec.add_development_dependency "mysql2"
   spec.add_development_dependency "sqlite3"
   spec.add_development_dependency "pg", "~> 0.18"
