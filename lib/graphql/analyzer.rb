@@ -1,6 +1,7 @@
 require "graphql"
 require "graphql/analyzer/version"
 require "graphql/analyzer/instrumentation/base"
+require "graphql/analyzer/instrumentation/elastic_search"
 require "graphql/analyzer/instrumentation/mysql"
 require "graphql/analyzer/instrumentation/postgresql"
 require "graphql/analyzer/instrumentation/sqlite3"
