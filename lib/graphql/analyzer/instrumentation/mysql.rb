@@ -1,7 +1,7 @@
 module GraphQL
   class Analyzer
     module Instrumentation
-      class Mysql < Base
+      class Mysql < ActiveRecord
         private
 
         def parser

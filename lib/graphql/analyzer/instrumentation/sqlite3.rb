@@ -1,7 +1,7 @@
 module GraphQL
   class Analyzer
     module Instrumentation
-      class Sqlite3 < Base
+      class Sqlite3 < ActiveRecord
         private
 
         def parser
