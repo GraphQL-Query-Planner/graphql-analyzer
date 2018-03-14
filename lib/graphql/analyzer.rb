@@ -1,6 +1,7 @@
 require "graphql"
 require "graphql/analyzer/version"
 require "graphql/analyzer/instrumentation/base"
+require "graphql/analyzer/instrumentation/active_record"
 require "graphql/analyzer/instrumentation/elastic_search"
 require "graphql/analyzer/instrumentation/mysql"
 require "graphql/analyzer/instrumentation/postgresql"
@@ -43,7 +44,10 @@ module GraphQL
 
     def instrument(type, field)
       instruments.reduce(field) do |field, instrumentation|
-        field.redefine { resolve(instrumentation.instrument(type, field)) }
+        field.redefine do
+          resolve(instrumentation.instrument(type, field))
+          lazy_resolve(instrumentation.instrument_lazy(type, field))
+        end
       end
     end
   end

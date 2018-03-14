@@ -1,27 +1,23 @@
 module GraphQL
   class Analyzer
     module Instrumentation
-      class ElasticSearch < Base
-        def initialize
-          @notifications = []
-          ActiveSupport::Notifications.subscribe('search.elasticsearch') do |name, start, finish, id, payload|
-            @notifications << {
-              name: name,
-              start: start,
-              finish: finish,
-              id: id,
-              payload: payload
-            }
-          end
-        end
-
+      class ActiveRecord < Base
         private
 
         def resolve_proc(type, field, method)
           ->(obj, args, ctx) do
-            result = field.public_send(method).call(obj, args, ctx)
+            result = nil
+            queries = ::ActiveRecord::Base.collecting_queries_for_explain do
+              result = field.public_send(method).call(obj, args, ctx)
+              if result.respond_to?(:to_a)
+                result.to_a
+              end
+            end
 
-            if @notifications.any?
+            if queries.any?
+              explain_output = ::ActiveRecord::Base.exec_explain(queries)
+              parsed_output = parser.parse(explain_output)
+
               # TODO: Merge results when a field makes two types of queries
               # e.g. path: ['user', 'name'] makes a SQL and ES Query.
               ctx['graphql-analyzer']['resolvers'] << {
@@ -30,18 +26,16 @@ module GraphQL
                 'parentType' => type.name,
                 'fieldName' => field.name,
                 'returnType' => field.type.to_s,
-                'details' => @notifications
+                'details' => parsed_output
               }
-
-              @notifications = []
             end
 
             result
           end
         end
 
-        def adapter
-          @adapter ||= 'elasticsearch'
+        def parser
+          raise NotImplementedError, "Please override in #{self.class.name}"
         end
       end
     end

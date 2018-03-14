@@ -1,7 +1,7 @@
 module GraphQL
   class Analyzer
     module Instrumentation
-      class Postgresql < Base
+      class Postgresql < ActiveRecord
         private
 
         def parser
