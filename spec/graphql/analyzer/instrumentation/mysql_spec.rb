@@ -22,7 +22,7 @@ describe GraphQL::Analyzer::Instrumentation::Mysql do
   context '#instrument' do
     it 'should have explained the query' do
       instrumented_proc.call(nil, nil, mock_ctx)
-      results = mock_ctx.dig('graphql-analyzer', 'resolvers', 0, 'details')
+      results = mock_ctx.dig('graphql-analyzer', 'resolvers', 0, 'details', 0)
       explained_query = results.explained_queries.first
 
       expect(explained_query['select_type']).to eq 'SIMPLE'
@@ -31,7 +31,7 @@ describe GraphQL::Analyzer::Instrumentation::Mysql do
 
     it 'should have captured the query made' do
       instrumented_proc.call(nil, nil, mock_ctx)
-      results = mock_ctx.dig('graphql-analyzer', 'resolvers', 0, 'details')
+      results = mock_ctx.dig('graphql-analyzer', 'resolvers', 0, 'details', 0)
 
       expect(results.root).to match /SELECT.*FROM.*users/
     end
