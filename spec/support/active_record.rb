@@ -5,12 +5,12 @@ RAILS_ENV = ENV['RAILS_ENV'] || 'test'
 DB_CONFIGS = {}
 GlobalID.app = 'GraphQL-Analyzer'
 
-Dir.glob(File.join('spec', 'support', 'active_record', '**', '*.rb')).each do |filename|
-  require(filename.gsub('spec/', ''))
-end
-
 Dir.glob(File.join('spec', 'support', 'active_record', 'config', '*.yml')).each do |filename|
   DB_CONFIGS[File.basename(filename, '.yml')] = YAML.load(File.read(filename))
+end
+
+Dir.glob(File.join('spec', 'support', 'active_record', '**', '*.rb')).each do |filename|
+  require(filename.gsub('spec/', ''))
 end
 
 ActiveRecord::Migration.verbose = false
