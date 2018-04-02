@@ -3,6 +3,7 @@ require 'pry-byebug'
 require "graphql"
 require 'globalid'
 require 'graphql/analyzer'
+require 'elasticsearch/model'
 require 'support/factory_bot'
 require 'support/active_record'
 require 'support/graphql'
