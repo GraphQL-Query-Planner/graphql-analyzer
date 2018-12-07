@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GraphQL::Analyzer::Instrumentation::Mysql do
   before :all do
     ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])
-    ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+    ActiveRecord::MigrationContext.new('spec/support/active_record/db/migrate/').migrate
   end
 
   after :all do

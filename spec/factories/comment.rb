@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :comment do
-    body 'Hello, World!'
+    body { 'Hello, World!' }
     association :author, factory: :user
 
     factory :post_comment do

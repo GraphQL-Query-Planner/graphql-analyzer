@@ -3,7 +3,7 @@ require 'spec_helper'
 describe GraphQL::Analyzer::Instrumentation::Sqlite3 do
   before :all do
     ActiveRecord::Base.establish_connection(DB_CONFIGS['sqlite3'][RAILS_ENV])
-    ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+    ActiveRecord::MigrationContext.new('spec/support/active_record/db/migrate/').migrate
   end
 
   after :all do

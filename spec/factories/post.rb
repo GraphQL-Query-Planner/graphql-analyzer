@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :post do
-    body 'Hello, World!'
+    body { 'Hello, World!' }
     association :author, factory: :user
     association :receiver, factory: :user
   end

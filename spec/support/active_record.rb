@@ -17,7 +17,7 @@ ActiveRecord::Migration.verbose = false
 
 DB_CONFIGS.each do |adapter, config|
   ActiveRecord::Base.establish_connection(config[RAILS_ENV])
-  ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+  ActiveRecord::MigrationContext.new('spec/support/active_record/db/migrate/').migrate
 end
 
 ActiveRecord::Base.establish_connection(DB_CONFIGS['mysql'][RAILS_ENV])

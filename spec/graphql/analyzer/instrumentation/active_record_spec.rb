@@ -55,7 +55,7 @@ DB_CONFIGS.each do |adapter, config|
 
     before :all do
       ActiveRecord::Base.establish_connection(config[RAILS_ENV])
-      ActiveRecord::Migrator.migrate('spec/support/active_record/db/migrate/', nil)
+      ActiveRecord::MigrationContext.new('spec/support/active_record/db/migrate/').migrate
     end
 
     after :all do
