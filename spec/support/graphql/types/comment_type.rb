@@ -9,4 +9,8 @@ CommentType = GraphQL::ObjectType.define do
   field :body, !types.String
   field :author, !UserType
   field :content, !ContentType
+
+  def author
+    object.author
+  end
 end

@@ -49,6 +49,26 @@ shared_examples 'an instrumented field' do
   end
 end
 
+shared_examples 'an instrumented method call' do
+  let(:comment) { create(:post_comment, author: user)}
+  let(:user) { create(:user) }
+  let(:query_string) { %|{ node(id: "#{comment.to_global_id}") { ...on Comment { author { email } } } }| }
+  let(:schema) do
+    analyzer = GraphQL::Analyzer.new([instrumentation])
+    AppSchema.redefine { use(analyzer) }
+  end
+  let(:result) do
+    res = schema.execute(query_string, context: {}, variables: {})
+    pp res if res.key?('errors')
+    res
+  end
+
+  it 'should capture queries made resolved via a method' do
+    expect(result.dig('data', 'node', 'author', 'email')).to eq 'derek@shopify.com'
+    expect(result.dig('extensions', 'analyzer', 'execution', 'resolvers').size).to eq 2
+  end
+end
+
 DB_CONFIGS.each do |adapter, config|
   describe "graphql fields backed by #{adapter}" do
     let(:instrumentation) { "GraphQL::Analyzer::Instrumentation::#{adapter.camelize}".constantize.new }
@@ -64,5 +84,6 @@ DB_CONFIGS.each do |adapter, config|
 
     it_behaves_like 'an instrumented schema'
     it_behaves_like 'an instrumented field'
+    it_behaves_like 'an instrumented method call'
   end
 end
